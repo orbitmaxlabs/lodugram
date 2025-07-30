@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
 import { getFriendRequests, acceptFriendRequest, declineFriendRequest } from '@/services/firebase/friends'
 import { 
-  UserPlusIcon, 
   CheckIcon, 
   XMarkIcon,
   BellIcon 

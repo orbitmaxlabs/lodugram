@@ -11,7 +11,7 @@ import {
 
 const Register = () => {
   const navigate = useNavigate()
-  const { signInWithGoogle, isLoading, error } = useAuth()
+  const { signInWithGoogle } = useAuth()
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth)
   const [isSigningUp, setIsSigningUp] = useState(false)
 

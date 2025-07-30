@@ -5,6 +5,7 @@ interface User {
   email: string
   displayName: string
   photoURL?: string
+  username?: string
 }
 
 interface AuthState {
@@ -33,7 +34,7 @@ const authSlice = createSlice({
       state.isAuthenticated = !!action.payload
       state.error = null
     },
-    setError: (state, action: PayloadAction<string>) => {
+    setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload
       state.isLoading = false
     },

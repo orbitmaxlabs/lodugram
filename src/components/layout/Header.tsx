@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
-import { UserCircleIcon, BellIcon, HeartIcon } from '@heroicons/react/24/outline'
+import { UserCircleIcon, HeartIcon } from '@heroicons/react/24/outline'
 
 const Header = () => {
   const location = useLocation()

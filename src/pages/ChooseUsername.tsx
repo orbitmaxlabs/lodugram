@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/store/store'
 import { useAuth } from '@/hooks/useAuth'
-import { checkUsernameAvailability, setUsername, setUsernameSimple } from '@/services/firebase/username'
+import { checkUsernameAvailability, setUsernameSimple } from '@/services/firebase/username'
 import { setUser } from '@/store/authSlice'
 import { refreshUserData, testDatabaseConnection } from '@/services/firebase/auth'
 import { 
@@ -84,7 +84,7 @@ const ChooseUsername = () => {
     setIsSubmitting(true)
     try {
       console.log('=== STARTING USERNAME SETTING PROCESS ===')
-      console.log('User ID:', user.uid)
+      console.log('User ID:', user?.uid)
       console.log('Username to set:', username)
       console.log('Current user data:', user)
       
@@ -96,19 +96,13 @@ const ChooseUsername = () => {
         throw new Error('Database connection failed')
       }
       
-      // Try simple approach first
-      try {
-        await setUsernameSimple(user.uid, username)
-        console.log('Username set successfully with simple method')
-      } catch (error) {
-        console.log('Simple method failed, trying complex method:', error)
-        await setUsername(user.uid, username)
-        console.log('Username set successfully with complex method')
-      }
+      // Set username using simple method
+      await setUsernameSimple(user?.uid!, username)
+      console.log('Username set successfully')
       
       // Refresh user data from Firestore to get the updated username
       console.log('Refreshing user data from Firestore...')
-      const refreshedUser = await refreshUserData(user.uid)
+      const refreshedUser = await refreshUserData(user?.uid!)
       console.log('Refreshed user data:', refreshedUser)
       
       if (refreshedUser && refreshedUser.username) {
@@ -119,6 +113,8 @@ const ChooseUsername = () => {
         // Try to manually update the state with the username
         const manualUser = {
           ...user,
+          uid: user?.uid || '',
+          email: user?.email || '',
           username: username.toLowerCase(),
           displayName: username.toLowerCase(),
         }

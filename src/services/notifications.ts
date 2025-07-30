@@ -65,7 +65,6 @@ export const setupForegroundMessageHandler = (): (() => void) => {
           tag: 'fcm-message',
           requireInteraction: false,
           silent: false,
-          vibrate: [200, 100, 200],
           data: payload.data || {}
         }
       )
@@ -130,7 +129,6 @@ export const showGreetingNotification = (fromUsername: string, message: string) 
     tag: 'greeting',
     requireInteraction: false,
     silent: false,
-    vibrate: [200, 100, 200],
   }
 
   console.log('Notification options:', options)

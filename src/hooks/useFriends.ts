@@ -29,7 +29,7 @@ export const useFriends = () => {
              email: friend.email || '',
              photoURL: friend.photoURL,
              status: 'online' as const, // Default status
-             lastSeen: new Date().toISOString(), // Convert to string to avoid serialization issues
+             lastSeen: new Date(), // Convert to Date object
            }))
       
       console.log('Transformed friends:', transformedFriends)

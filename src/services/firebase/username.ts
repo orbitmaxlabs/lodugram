@@ -35,7 +35,7 @@ export const setUsername = async (uid: string, username: string): Promise<void> 
     
     let userData = {}
     if (userSnap.exists()) {
-      userData = userSnap.data()
+      userData = userSnap.data() || {}
       console.log('Existing user data:', userData)
     }
     

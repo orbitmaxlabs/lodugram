@@ -30,7 +30,6 @@ messaging.onBackgroundMessage((payload) => {
     tag: 'background-message',
     requireInteraction: false,
     silent: false,
-    vibrate: [200, 100, 200],
     data: payload.data || {}
   }
 

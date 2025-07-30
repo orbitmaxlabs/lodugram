@@ -16,7 +16,7 @@ const Home = () => {
   const navigate = useNavigate()
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth)
   const { friends } = useFriends()
-  const [sendingGreeting, setSendingGreeting] = useState<string | null>(null)
+
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
 
   // Initialize greetings listener
@@ -162,7 +162,7 @@ const Home = () => {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {friends.map((friend) => (
-            <FriendCard key={friend.id} friend={friend} />
+            <FriendCard key={friend.id} friend={friend} onDebugGreetings={debugGreetings} />
           ))}
         </div>
       )}
@@ -181,7 +181,7 @@ interface FriendCardProps {
   }
 }
 
-const FriendCard = ({ friend }: FriendCardProps) => {
+const FriendCard = ({ friend, onDebugGreetings }: FriendCardProps & { onDebugGreetings: () => void }) => {
   const { user } = useSelector((state: RootState) => state.auth)
   const [sendingGreeting, setSendingGreeting] = useState(false)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
@@ -196,16 +196,16 @@ const FriendCard = ({ friend }: FriendCardProps) => {
     try {
       console.log('=== SENDING GREETING ===')
       console.log('From user:', user.uid, '@' + user.username)
-      console.log('To friend:', friend.uid, '@' + friend.username)
+      console.log('To friend:', friend.id, '@' + friend.username)
       console.log('Sending greeting to:', friend.displayName)
       
-      await sendGreeting(user.uid, friend.uid, user.username)
+      await sendGreeting(user.uid, friend.id, user.username)
       console.log('Greeting sent successfully to:', friend.username)
       setToast({ message: `Greeting sent to @${friend.username}!`, type: 'success' })
       
       // Debug: Check if greeting was saved
       setTimeout(() => {
-        debugGreetings()
+        onDebugGreetings()
       }, 1000)
       
     } catch (error) {

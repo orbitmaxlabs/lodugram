@@ -79,7 +79,7 @@ const AddFriend = () => {
     }
   }
 
-  const handleSendRequest = async (targetUserId: string, username: string) => {
+  const handleSendRequest = async (targetUserId: string) => {
     if (!user) return
 
     setIsSendingRequest(targetUserId)
@@ -202,7 +202,7 @@ const AddFriend = () => {
                 </div>
                 
                 <button
-                  onClick={() => handleSendRequest(result.uid, result.username)}
+                  onClick={() => handleSendRequest(result.uid)}
                   disabled={isSendingRequest === result.uid || result.requestSent}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     result.requestSent

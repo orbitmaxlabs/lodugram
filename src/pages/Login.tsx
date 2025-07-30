@@ -10,7 +10,7 @@ import {
 
 const Login = () => {
   const navigate = useNavigate()
-  const { signInWithGoogle, isLoading, error } = useAuth()
+  const { signInWithGoogle } = useAuth()
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth)
   const [isSigningIn, setIsSigningIn] = useState(false)
 

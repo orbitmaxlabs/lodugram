@@ -99,20 +99,14 @@ const saveUserToFirestore = async (user: User): Promise<void> => {
     const userData = {
       uid: user.uid,
       email: user.email,
+      displayName: user.displayName,
       photoURL: user.photoURL,
+      username: user.username,
       createdAt: new Date(),
       updatedAt: new Date(),
     }
     
-    // Use username as display name if available
-    if (user.username) {
-      userData.displayName = user.username
-      userData.username = user.username
-      console.log('User has username, using as display name:', user.username)
-    } else {
-      userData.displayName = user.displayName
-      console.log('User has no username, using display name:', user.displayName)
-    }
+    console.log('User data to save:', userData)
     
     console.log('Saving user data:', userData)
     await setDoc(userRef, userData, { merge: true })
@@ -153,8 +147,9 @@ export const onAuthStateChange = (callback: (user: User | null) => void) => {
       }
     } catch (error) {
       // Suppress common Firebase connection errors
-      if (!error.message?.includes('ERR_BLOCKED_BY_CLIENT') && 
-          !error.message?.includes('Cross-Origin-Opener-Policy')) {
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      if (!errorMessage.includes('ERR_BLOCKED_BY_CLIENT') && 
+          !errorMessage.includes('Cross-Origin-Opener-Policy')) {
         console.error('Auth state change error:', error)
       }
       callback(null)

@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { Suspense, lazy, useEffect } from 'react'
 import Layout from '@/components/layout/Layout'
 import LoadingSpinner from '@/components/common/LoadingSpinner'
-import UsernameGuard from '@/components/auth/UsernameGuard'
+
 import { initializeFCM, setupForegroundMessageHandler, setupNotificationClickHandler } from '@/services/notifications'
 import { useAuth } from '@/hooks/useAuth'
 

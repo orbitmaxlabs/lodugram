@@ -4,7 +4,6 @@ import {
   collection, 
   query, 
   where, 
-  getDocs,
   onSnapshot,
   orderBy,
   limit
@@ -69,8 +68,19 @@ export const sendGreeting = async (
   }
 }
 
+// Greeting interface
+interface Greeting {
+  id: string
+  fromUserId: string
+  toUserId: string
+  fromUsername: string
+  message: string
+  createdAt: Date | any
+  read: boolean
+}
+
 // Get greetings for a user
-export const getUserGreetings = (userId: string, callback: (greetings: any[]) => void) => {
+export const getUserGreetings = (userId: string, callback: (greetings: Greeting[]) => void) => {
   const greetingsQuery = query(
     collection(db, 'greetings'),
     where('toUserId', '==', userId),
@@ -79,10 +89,10 @@ export const getUserGreetings = (userId: string, callback: (greetings: any[]) =>
   )
   
   return onSnapshot(greetingsQuery, (snapshot) => {
-    const greetings = snapshot.docs.map(doc => ({
+    const greetings: Greeting[] = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    }))
+    })) as Greeting[]
     console.log('Greetings received:', greetings.length)
     callback(greetings)
   }, (error) => {
@@ -97,12 +107,16 @@ export const getUserGreetings = (userId: string, callback: (greetings: any[]) =>
       )
       
       return onSnapshot(fallbackQuery, (snapshot) => {
-        const greetings = snapshot.docs.map(doc => ({
+        const greetings: Greeting[] = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
-        }))
+        })) as Greeting[]
         // Sort manually
-        greetings.sort((a, b) => b.createdAt.toDate() - a.createdAt.toDate())
+        greetings.sort((a, b) => {
+          const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt)
+          const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt)
+          return dateB.getTime() - dateA.getTime()
+        })
         console.log('Greetings received (fallback):', greetings.length)
         callback(greetings)
       })
