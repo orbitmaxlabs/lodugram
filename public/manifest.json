@@ -1,0 +1,18 @@
+{
+  "name": "LODUGRAM - Friend Greeting App",
+  "short_name": "LODUGRAM",
+  "description": "Send random greetings to your friends",
+  "theme_color": "#0ea5e9",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+} 
