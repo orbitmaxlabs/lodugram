@@ -164,7 +164,7 @@ export const sendGreetingNotification = functions.firestore
   })
 
 // Clean up invalid FCM tokens
-export const cleanupInvalidTokens = functions.pubsub.schedule('every 24 hours').onRun(async (context) => {
+export const cleanupInvalidTokens = functions.pubsub.schedule('every 24 hours').onRun(async (_context) => {
   try {
     const usersSnapshot = await db.collection('users')
       .where('fcmToken', '!=', null)
